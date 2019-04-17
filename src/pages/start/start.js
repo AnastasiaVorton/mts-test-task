@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 
 import PropTypes from "prop-types";
-import MyDropzone from "./dropFileArea";
+import MyDropzone from "./DropFileArea";
 
 const styles = {
   card: {

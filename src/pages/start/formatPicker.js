@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import ArrowForward from "@material-ui/icons/ArrowForward";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -22,6 +23,13 @@ const styles = {
     "&:hover": {
       backgroundColor: "rgba(72, 89, 168, 1)"
     }
+  },
+  buttonProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12
   }
 };
 
@@ -53,6 +61,7 @@ class FormatPicker extends Component {
   state = {
     format1: "docx",
     format2: "pdf",
+    loading: false,
     successful: false,
     fileLink: null
   };
@@ -67,6 +76,7 @@ class FormatPicker extends Component {
   }
 
   handleConvert(from, to) {
+    this.setState({ loading: true });
     const headers = {
       Apikey: "88fb601c-d4dc-4760-8c3b-366f4abf547d",
       "Content-Type": "multipart/form-data",
@@ -80,6 +90,7 @@ class FormatPicker extends Component {
         responseType: "arraybuffer"
       })
       .then(response => {
+        this.setState({ loading: false });
         console.log("success!");
         const file = new Blob([response.data], {
           type: "application/" + to
@@ -96,6 +107,7 @@ class FormatPicker extends Component {
   }
 
   render() {
+    const { loading } = this.state;
     return (
       <React.Fragment>
         <ExtensionsCnntainer>
@@ -136,12 +148,19 @@ class FormatPicker extends Component {
           variant="contained"
           color="primary"
           className={this.props.classes.button}
+          disabled={loading}
           onClick={() =>
             this.handleConvert(this.state.format1, this.state.format2)
           }
         >
           Convert
         </Button>
+        {loading && (
+          <CircularProgress
+            size={24}
+            className={this.props.classes.buttonProgress}
+          />
+        )}
         <Success
           success={this.state.successful}
           fileLink={this.state.fileLink}
