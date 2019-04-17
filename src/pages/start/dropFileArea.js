@@ -29,10 +29,7 @@ const DropFileArea = styled.div`
 
 function MyDropzone(props) {
   const { classes } = props;
-
-  const test = 1;
-
-  const [file, setValue] = useState(0);
+  const [file, setValue] = useState(null);
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader();
@@ -40,19 +37,14 @@ function MyDropzone(props) {
     reader.onabort = () => console.log("file reading was aborted");
     reader.onerror = () => console.log("file reading has failed");
     reader.onload = () => {
-      // Do whatever you want with the file contents
       console.warn("file recieved!", acceptedFiles[0].name);
-      const binaryStr = reader.result;
-      const newVal = file + binaryStr;
-      setValue(newVal);
-      //   fileData = binaryStr;
-      //   console.log(fileData);
+      setValue(reader.result);
     };
 
-    acceptedFiles.forEach(file => reader.readAsBinaryString(file));
+    reader.readAsArrayBuffer(acceptedFiles[0]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <React.Fragment>

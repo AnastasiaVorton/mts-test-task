@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import StartPage from "./pages/start/start.js";
 import styled from "styled-components";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -19,12 +18,10 @@ class App extends Component {
     return (
       <BrowserRouter>
         <MainContainer>
-          <StartPage />
-          {/* <Switch>
-            <Route path="/download" component={CharactersList} />
-            <Route path="/character/:id" component={CharacterDetails} />
-            <Redirect from="*" to="/characters" />
-          </Switch> */}
+          {/* <StartPage /> */}
+          <Switch>
+            <Route exact path="/" component={StartPage} />
+          </Switch>
         </MainContainer>
       </BrowserRouter>
     );

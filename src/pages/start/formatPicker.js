@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -70,33 +69,46 @@ const ExtensionsCnntainer = styled.div`
 `;
 
 const Success = styled.h2`
-  display: ${props => (props.successful ? "block" : "none")};
+  display: ${props => (props.success ? "block" : "none")};
 `;
 
 class FormatPicker extends Component {
   state = {
     format1: "docx",
     format2: "pdf",
-    successful: false
+    successful: false,
+    fileLink: null
   };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
+  downloadFile() {
+    const fileDownload = require("js-file-download");
+    fileDownload(this.state.fileLink, "result.pdf");
+  }
+
   handleConvert(from, to) {
     const headers = {
-      Apikey: "88fb601c-d4dc-4760-8c3b-366f4abf547d"
+      Apikey: "88fb601c-d4dc-4760-8c3b-366f4abf547d",
+      "Content-Type": "multipart/form-data",
+      accept: "application/octet-stream"
     };
+
     axios
       .post(
         `https://api.cloudmersive.com/convert/${from}/to/${to}`,
         this.props.fileData,
-        { headers: headers }
+        { headers: headers, responseType: "arraybuffer" }
       )
       .then(response => {
         console.log("success!");
-        console.log("data: ", response.data);
+        const file = new Blob([response.data], {
+          type: "application/pdf"
+        });
+        const url = URL.createObjectURL(file);
+        this.setState({ fileLink: url });
       })
       .then(data => {
         this.setState({ successful: true });
@@ -104,15 +116,6 @@ class FormatPicker extends Component {
       .catch(error => {
         dispatch({ type: ERROR_FINDING_USER });
       });
-
-    // console.warn(
-    //   "converting ",
-    //   this.props.fileData,
-    //   " from ",
-    //   from,
-    //   " to ",
-    //   to
-    // );
   }
 
   render() {
@@ -137,7 +140,7 @@ class FormatPicker extends Component {
           <ArrowForward />
           <TextField
             select
-            label="Select format from"
+            label="Select format to"
             className={this.props.classes.select}
             value={this.state.format2}
             margin="normal"
@@ -162,7 +165,12 @@ class FormatPicker extends Component {
         >
           Convert
         </Button>
-        <Success visible={this.props.successful}>Success!</Success>
+        <Success success={this.state.successful}>
+          Success!
+          <a href={this.state.fileLink} download>
+            Download file
+          </a>
+        </Success>
       </React.Fragment>
     );
   }
