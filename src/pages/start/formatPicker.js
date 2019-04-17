@@ -8,6 +8,7 @@ import ArrowForward from "@material-ui/icons/ArrowForward";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import axios from "axios";
+import Success from "../../components/SuccessComponent";
 
 const styles = {
   select: {
@@ -30,20 +31,8 @@ const formatsFrom = [
     label: "Word DOCX"
   },
   {
-    value: "pdf",
-    label: "PDF"
-  },
-  {
-    value: "pptx",
-    label: "PowerPoint PPTX"
-  },
-  {
     value: "xlsx",
     label: "Excel XLSX"
-  },
-  {
-    value: "csv",
-    label: "CSV"
   }
 ];
 
@@ -51,14 +40,6 @@ const formatsTo = [
   {
     value: "pdf",
     label: "PDF"
-  },
-  {
-    value: "xlsx",
-    label: "Excel XLSX"
-  },
-  {
-    value: "csv",
-    label: "CSV"
   }
 ];
 
@@ -66,10 +47,6 @@ const ExtensionsCnntainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-`;
-
-const Success = styled.h2`
-  display: ${props => (props.success ? "block" : "none")};
 `;
 
 class FormatPicker extends Component {
@@ -96,16 +73,16 @@ class FormatPicker extends Component {
       accept: "application/octet-stream"
     };
 
+    axios.defaults.baseURL = "https://api.cloudmersive.com";
     axios
-      .post(
-        `https://api.cloudmersive.com/convert/${from}/to/${to}`,
-        this.props.fileData,
-        { headers: headers, responseType: "arraybuffer" }
-      )
+      .post(`/convert/${from}/to/${to}`, this.props.fileData, {
+        headers: headers,
+        responseType: "arraybuffer"
+      })
       .then(response => {
         console.log("success!");
         const file = new Blob([response.data], {
-          type: "application/pdf"
+          type: "application/" + to
         });
         const url = URL.createObjectURL(file);
         this.setState({ fileLink: url });
@@ -165,12 +142,10 @@ class FormatPicker extends Component {
         >
           Convert
         </Button>
-        <Success success={this.state.successful}>
-          Success!
-          <a href={this.state.fileLink} download>
-            Download file
-          </a>
-        </Success>
+        <Success
+          success={this.state.successful}
+          fileLink={this.state.fileLink}
+        />
       </React.Fragment>
     );
   }
