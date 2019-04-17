@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import FileCopy from "@material-ui/icons/FileCopy";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
-import { withStyles } from "@material-ui/core/styles";
-import FormatPicker from "./formatPicker";
+import { withStyles } from "@material-ui/core/styles/index";
+import FormatPicker from "./FormatPicker";
 
 const styles = {
   icon: {

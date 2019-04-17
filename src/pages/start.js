@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
+import { withStyles } from "@material-ui/core/styles/index";
+import Card from "@material-ui/core/Card/index";
 
 import PropTypes from "prop-types";
-import MyDropzone from "./DropFileArea";
+import MyDropzone from "../components/DropFileArea";
 
 const styles = {
   card: {

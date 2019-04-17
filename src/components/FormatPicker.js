@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
+import { withStyles } from "@material-ui/core/styles/index";
+import Button from "@material-ui/core/Button/index";
+import TextField from "@material-ui/core/TextField/index";
+import MenuItem from "@material-ui/core/MenuItem/index";
 import ArrowForward from "@material-ui/icons/ArrowForward";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@material-ui/core/CircularProgress/index";
 
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import axios from "axios";
-import Success from "../../components/SuccessComponent";
+import axios from "axios/index";
+import Success from "./SuccessComponent";
 
 const styles = {
   select: {

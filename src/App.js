@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import StartPage from "./pages/start/start.js";
+import StartPage from "./pages/start.js";
 import styled from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 
