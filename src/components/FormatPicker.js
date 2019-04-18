@@ -1,21 +1,14 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles/index";
 import Button from "@material-ui/core/Button/index";
-import TextField from "@material-ui/core/TextField/index";
-import MenuItem from "@material-ui/core/MenuItem/index";
-import ArrowForward from "@material-ui/icons/ArrowForward";
 import CircularProgress from "@material-ui/core/CircularProgress/index";
 
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import axios from "axios/index";
 import Success from "./SuccessComponent";
+import Extensions from './Extensions';
 
 const styles = {
-  select: {
-    width: "150px",
-    maxWidth: "150px"
-  },
   button: {
     margin: "15px",
     width: "90%",
@@ -33,30 +26,6 @@ const styles = {
   }
 };
 
-const formatsFrom = [
-  {
-    value: "docx",
-    label: "Word DOCX"
-  },
-  {
-    value: "xlsx",
-    label: "Excel XLSX"
-  }
-];
-
-const formatsTo = [
-  {
-    value: "pdf",
-    label: "PDF"
-  }
-];
-
-const ExtensionsCnntainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-`;
-
 class FormatPicker extends Component {
   state = {
     format1: "docx",
@@ -70,11 +39,6 @@ class FormatPicker extends Component {
     this.setState({ [name]: event.target.value });
   };
 
-  downloadFile() {
-    const fileDownload = require("js-file-download");
-    fileDownload(this.state.fileLink, "result.pdf");
-  }
-
   handleConvert(from, to) {
     this.setState({ loading: true });
     const headers = {
@@ -87,7 +51,7 @@ class FormatPicker extends Component {
     axios
       .post(`/convert/${from}/to/${to}`, this.props.fileData, {
         headers: headers,
-        responseType: "arraybuffer"
+        responseType: "arraybuffer",
       })
       .then(response => {
         this.setState({ loading: false });
@@ -110,45 +74,12 @@ class FormatPicker extends Component {
     const { loading } = this.state;
     return (
       <React.Fragment>
-        <ExtensionsCnntainer>
-          <TextField
-            select
-            label="Select format from"
-            className={this.props.classes.select}
-            value={this.state.format1}
-            margin="normal"
-            variant="outlined"
-            onChange={this.handleChange("format1")}
-          >
-            {formatsFrom.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <ArrowForward />
-          <TextField
-            select
-            label="Select format to"
-            className={this.props.classes.select}
-            value={this.state.format2}
-            margin="normal"
-            variant="outlined"
-            onChange={this.handleChange("format2")}
-          >
-            {formatsTo.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-            >
-          </TextField>
-        </ExtensionsCnntainer>
+        <Extensions format1={this.state.format1} format2={this.state.format2} handleChange={this.handleChange('format1')} />
         <Button
           variant="contained"
           color="primary"
           className={this.props.classes.button}
-          disabled={loading}
+          disabled={loading || !this.props.received}
           onClick={() =>
             this.handleConvert(this.state.format1, this.state.format2)
           }
@@ -172,7 +103,8 @@ class FormatPicker extends Component {
 
 FormatPicker.propTypes = {
   classes: PropTypes.object.isRequired,
-  fileData: PropTypes.any
+  fileData: PropTypes.any,
+  received: PropTypes.bool
 };
 
 export default withStyles(styles)(FormatPicker);

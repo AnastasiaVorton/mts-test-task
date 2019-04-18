@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import StartPage from "./pages/start.js";
 import styled from "styled-components";
-import { BrowserRouter } from "react-router-dom";
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -16,11 +15,9 @@ const MainContainer = styled.div`
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
         <MainContainer>
           <StartPage />
         </MainContainer>
-      </BrowserRouter>
     );
   }
 }

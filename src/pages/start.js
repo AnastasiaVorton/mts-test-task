@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles/index";
 import Card from "@material-ui/core/Card/index";
 
 import PropTypes from "prop-types";
-import MyDropzone from "../components/DropFileArea";
+import DropFileArea from "../components/DropFileArea";
 
 const styles = {
   card: {
@@ -22,7 +22,7 @@ class StartPage extends Component {
     return (
       <React.Fragment>
         <Card className={this.props.classes.card}>
-          <MyDropzone />
+          <DropFileArea />
         </Card>
       </React.Fragment>
     );

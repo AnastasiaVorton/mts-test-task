@@ -13,7 +13,7 @@ const styles = {
   }
 };
 
-const DropFileArea = styled.div`
+const DropFile = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -27,9 +27,10 @@ const DropFileArea = styled.div`
   border-radius: 5px;
 `;
 
-function MyDropzone(props) {
+function DropFileArea(props) {
   const { classes } = props;
   const [file, setValue] = useState(null);
+  const [fileReceived, setReceived] = useState(false);
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader();
@@ -39,6 +40,7 @@ function MyDropzone(props) {
     reader.onload = () => {
       console.warn("file recieved!", acceptedFiles[0].name);
       setValue(reader.result);
+      setReceived(true);
     };
 
     reader.readAsArrayBuffer(acceptedFiles[0]);
@@ -48,18 +50,18 @@ function MyDropzone(props) {
 
   return (
     <React.Fragment>
-      <DropFileArea {...getRootProps()}>
+      <DropFile {...getRootProps()}>
         <input {...getInputProps()} />
         <FileCopy className={classes.icon} />
         Drop files here
-      </DropFileArea>
-      <FormatPicker fileData={file} />
+      </DropFile>
+      <FormatPicker fileData={file} received={fileReceived}/>
     </React.Fragment>
   );
 }
 
-MyDropzone.propTypes = {
+DropFileArea.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MyDropzone);
+export default withStyles(styles)(DropFileArea);
