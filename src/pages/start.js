@@ -9,6 +9,7 @@ import DropFileArea from "../components/DropFileArea";
 const styles = {
   card: {
     minWidth: 400,
+    maxWidth: 400,
     display: "flex",
     alignItems: "center",
     flexDirection: "column"

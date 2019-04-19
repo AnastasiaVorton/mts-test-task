@@ -8,28 +8,28 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const styles = {
-    select: {
-        width: "150px",
-        maxWidth: "150px"
-    },
+  select: {
+    width: "150px",
+    maxWidth: "150px"
+  }
 };
 
 export const formatsFrom = [
-    {
-        value: "docx",
-        label: "Word DOCX"
-    },
-    {
-        value: "xlsx",
-        label: "Excel XLSX"
-    },
+  {
+    value: "docx",
+    label: "Word DOCX"
+  },
+  {
+    value: "xlsx",
+    label: "Excel XLSX"
+  }
 ];
 
 export const formatsTo = [
-    {
-        value: "pdf",
-        label: "PDF"
-    }
+  {
+    value: "pdf",
+    label: "PDF"
+  }
 ];
 
 const ExtensionsCnntainer = styled.div`
@@ -39,50 +39,50 @@ const ExtensionsCnntainer = styled.div`
 `;
 
 class Extensions extends Component {
-    render() {
-        return (
-                <ExtensionsCnntainer>
-                    <TextField
-                        select
-                        label="Select format from"
-                        className={this.props.classes.select}
-                        value={this.props.format1}
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.props.handleChange}
-                    >
-                        {formatsFrom.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <ArrowForward />
-                    <TextField
-                        select
-                        label="Select format to"
-                        className={this.props.classes.select}
-                        value={this.props.format2}
-                        margin="normal"
-                        variant="outlined"
-                    >
-                        {formatsTo.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                        >
-                    </TextField>
-                </ExtensionsCnntainer>
-        );
-    }
+  render() {
+    return (
+      <ExtensionsCnntainer>
+        <TextField
+          select
+          label="Select format from"
+          className={this.props.classes.select}
+          value={this.props.format1}
+          margin="normal"
+          variant="outlined"
+          onChange={this.props.handleChange}
+        >
+          {formatsFrom.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <ArrowForward />
+        <TextField
+          select
+          label="Select format to"
+          className={this.props.classes.select}
+          value={this.props.format2}
+          margin="normal"
+          variant="outlined"
+        >
+          {formatsTo.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+          >
+        </TextField>
+      </ExtensionsCnntainer>
+    );
+  }
 }
 
 Extensions.propTypes = {
-    classes: PropTypes.object.isRequired,
-    format1: PropTypes.string,
-    format2: PropTypes.string,
-    handleChange: PropTypes.func
+  classes: PropTypes.object.isRequired,
+  format1: PropTypes.string,
+  format2: PropTypes.string,
+  handleChange: PropTypes.func
 };
 
 export default withStyles(styles)(Extensions);

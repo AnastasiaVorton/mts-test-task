@@ -6,8 +6,8 @@ import CircularProgress from "@material-ui/core/CircularProgress/index";
 import PropTypes from "prop-types";
 import axios from "axios/index";
 import Success from "./SuccessComponent";
-import Extensions from './Extensions';
-import { formatsFrom} from "./Extensions";
+import Extensions from "./Extensions";
+import { formatsFrom } from "./Extensions";
 
 const styles = {
   button: {
@@ -42,19 +42,23 @@ class FormatPicker extends Component {
 
   handleConvert(from, to) {
     let foundFormat = false;
-    for (let ext of formatsFrom){
-      if (this.props.extension === ext['value']){
+    for (let ext of formatsFrom) {
+      if (this.props.extension === ext["value"]) {
         foundFormat = true;
         break;
       }
     }
-    if (!foundFormat){
-      alert('The extension of the file you provided is not supported yet. Please, provide a file in one of provided extension.');
+    if (!foundFormat) {
+      alert(
+        "The extension of the file you provided is not supported yet. Please, provide a file in one of provided extension."
+      );
       window.location.reload();
       return;
     }
-    if (this.props.extension !== from){
-      alert(`The extension of your file is not the one you chose. Please chose another extension or provide a .${from} file.`);
+    if (this.props.extension !== from) {
+      alert(
+        `The extension of your file is not the one you chose. Please chose another extension or provide a .${from} file.`
+      );
       window.location.reload();
       return;
     }
@@ -69,11 +73,10 @@ class FormatPicker extends Component {
     axios
       .post(`/convert/${from}/to/${to}`, this.props.fileData, {
         headers: headers,
-        responseType: "arraybuffer",
+        responseType: "arraybuffer"
       })
       .then(response => {
         this.setState({ loading: false });
-        console.log("success!");
         const file = new Blob([response.data], {
           type: "application/" + to
         });
@@ -92,7 +95,11 @@ class FormatPicker extends Component {
     const { loading } = this.state;
     return (
       <React.Fragment>
-        <Extensions format1={this.state.format1} format2={this.state.format2} handleChange={this.handleChange('format1')} />
+        <Extensions
+          format1={this.state.format1}
+          format2={this.state.format2}
+          handleChange={this.handleChange("format1")}
+        />
         <Button
           variant="contained"
           color="primary"
@@ -123,7 +130,7 @@ FormatPicker.propTypes = {
   classes: PropTypes.object.isRequired,
   fileData: PropTypes.any,
   received: PropTypes.bool,
-  extension: PropTypes.string,
+  extension: PropTypes.string
 };
 
 export default withStyles(styles)(FormatPicker);
