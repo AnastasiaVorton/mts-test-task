@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import axios from "axios/index";
 import Success from "./SuccessComponent";
 import Extensions from './Extensions';
+import { formatsFrom} from "./Extensions";
 
 const styles = {
   button: {
@@ -40,6 +41,23 @@ class FormatPicker extends Component {
   };
 
   handleConvert(from, to) {
+    let foundFormat = false;
+    for (let ext of formatsFrom){
+      if (this.props.extension === ext['value']){
+        foundFormat = true;
+        break;
+      }
+    }
+    if (!foundFormat){
+      alert('The extension of the file you provided is not supported yet. Please, provide a file in one of provided extension.');
+      window.location.reload();
+      return;
+    }
+    if (this.props.extension !== from){
+      alert(`The extension of your file is not the one you chose. Please chose another extension or provide a .${from} file.`);
+      window.location.reload();
+      return;
+    }
     this.setState({ loading: true });
     const headers = {
       Apikey: "88fb601c-d4dc-4760-8c3b-366f4abf547d",
@@ -104,7 +122,8 @@ class FormatPicker extends Component {
 FormatPicker.propTypes = {
   classes: PropTypes.object.isRequired,
   fileData: PropTypes.any,
-  received: PropTypes.bool
+  received: PropTypes.bool,
+  extension: PropTypes.string,
 };
 
 export default withStyles(styles)(FormatPicker);

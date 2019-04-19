@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles/index";
 import FormatPicker from "./FormatPicker";
 
+
 const styles = {
   icon: {
     fontSize: "100px",
@@ -27,10 +28,15 @@ const DropFile = styled.div`
   border-radius: 5px;
 `;
 
+const FileReceived = styled.p`
+   display: ${props => (props.received ? "flex" : "none")};
+`;
+
 function DropFileArea(props) {
   const { classes } = props;
   const [file, setValue] = useState(null);
   const [fileReceived, setReceived] = useState(false);
+  const [fileExt, setExtension] = useState('');
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader();
@@ -38,6 +44,14 @@ function DropFileArea(props) {
     reader.onabort = () => console.log("file reading was aborted");
     reader.onerror = () => console.log("file reading has failed");
     reader.onload = () => {
+      if (acceptedFiles.length > 1){
+        alert("Only one file is allowed! Please use a single file for conversion.");
+        window.location.reload();
+        return;
+      }
+      const nameExtArr = acceptedFiles[0].name.split(".");
+      setExtension(nameExtArr[1]);
+      console.log(fileExt);
       console.warn("file recieved!", acceptedFiles[0].name);
       setValue(reader.result);
       setReceived(true);
@@ -55,7 +69,8 @@ function DropFileArea(props) {
         <FileCopy className={classes.icon} />
         Drop files here
       </DropFile>
-      <FormatPicker fileData={file} received={fileReceived}/>
+      <FileReceived received={fileReceived}>File received</FileReceived>
+      <FormatPicker extension={fileExt} fileData={file} received={fileReceived}/>
     </React.Fragment>
   );
 }

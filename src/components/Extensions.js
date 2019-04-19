@@ -14,7 +14,7 @@ const styles = {
     },
 };
 
-const formatsFrom = [
+export const formatsFrom = [
     {
         value: "docx",
         label: "Word DOCX"
@@ -25,7 +25,7 @@ const formatsFrom = [
     },
 ];
 
-const formatsTo = [
+export const formatsTo = [
     {
         value: "pdf",
         label: "PDF"
