@@ -28,7 +28,7 @@ const DropFile = styled.div`
 `;
 
 const FileReceived = styled.div`
-  width: 90%;
+  padding: 0 20px;
   text-align: center;
   display: ${props => (props.received ? "flex" : "none")};
   word-break: break-all;
@@ -73,7 +73,7 @@ function DropFileArea(props) {
         <FileCopy className={classes.icon} />
         Drop files here
       </DropFile>
-      <FileReceived received={fileReceived}>{fileName}</FileReceived>
+        <FileReceived received={fileReceived}><p>{fileName}</p></FileReceived>
       <FormatPicker
         extension={fileExt}
         fileData={file}
