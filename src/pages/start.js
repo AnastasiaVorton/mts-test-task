@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
+import { withStyles } from "@material-ui/core/styles/index";
+import Card from "@material-ui/core/Card/index";
 
 import PropTypes from "prop-types";
-import MyDropzone from "./dropFileArea";
+import DropFileArea from "../components/DropFileArea";
 
 const styles = {
   card: {
     minWidth: 400,
+    maxWidth: 400,
     display: "flex",
     alignItems: "center",
     flexDirection: "column"
@@ -22,7 +23,7 @@ class StartPage extends Component {
     return (
       <React.Fragment>
         <Card className={this.props.classes.card}>
-          <MyDropzone />
+          <DropFileArea />
         </Card>
       </React.Fragment>
     );
