@@ -55,7 +55,7 @@ function DropFileArea(props) {
         return;
       }
       const nameExtArr = acceptedFiles[0].name.split(".");
-      setExtension(nameExtArr[1]);
+      setExtension(nameExtArr[nameExtArr.length-1]);
       setFileName(acceptedFiles[0].name);
       setValue(reader.result);
       setReceived(true);
